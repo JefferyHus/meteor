@@ -68,6 +68,18 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.navigation.events({
+    'click .logout':function(e){
+      e.preventDefault();
+      Meteor.logout(function(error){
+        if(error)
+          console.log(error);
+        else
+          Router.go('login');
+      });
+    }
+  });
+
   // This code only runs on the client
   Template.tasks.helpers({
     tasks: function () {
@@ -84,6 +96,37 @@ if (Meteor.isClient) {
     },
     incompleteCount: function () {
       return Tasks.find({checked: {$ne: true}}).count();
+    }
+  });
+
+  Template.register.events({
+    'submit form':function(e){
+      e.preventDefault();
+      var username = $('[name="username"]').val();
+      var passw = $('[name="password"]').val();
+      //create a user
+      Accounts.createUser({username: username, password: passw},function(errors){
+        if(errors)
+          console.log(errors);
+        else
+          Router.go('home');
+      });
+    }
+  });
+
+  Template.login.events({
+    'submit form':function(e){
+      e.preventDefault();
+
+      var username = $('[name="username"]');
+      var password = $('[name="password"]');
+      //login the user
+      Meteor.loginWithPassword(username, password, function(error){
+        if(error)
+          console.log(error);
+        else
+          Router.go('tasks');
+      });
     }
   });
 
@@ -104,6 +147,8 @@ Meteor.methods({
       createdAt: new Date(),
       owner: Meteor.userId(),
       username: Meteor.user().username
+    }, function(errors, _id){
+      Router.go('tasks', {_id: _id});
     });
   },
   deleteTask: function (taskId) {
@@ -138,6 +183,7 @@ Meteor.methods({
   }
 });
 
+
 //Routing
 Router.route('/',{
   name: 'home',
@@ -148,4 +194,11 @@ Router.route('/login');
 Router.route('/tasks');
 Router.configure({
   layoutTemplate: 'main'
+});
+Router.route('tasks/:_id',{
+  template: 'taskitem',
+  data: function(e, tempalte){
+    var currentTask = this.params._id;
+    return Tasks.findOne({_id: currentTask});
+  }
 });

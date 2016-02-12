@@ -10,7 +10,6 @@
         <input type="checkbox" checked="{{hideCompleted}}" />
         Hide Completed Tasks
       </label>
-      {{> loginButtons}}
       {{#if currentUser}}
       <form class="new-task">
         <input type="text" name="text" placeholder="Type to add new tasks" />
@@ -38,10 +37,21 @@
 <template name="navigation">
   <ul>
     <li><a href="{{ pathFor route='home' }}">Home</a></li>
+    {{#if currentUser}}
+    <li><a href="#" class="logout">Logout</a></li>
+    {{else}}
     <li><a href="{{ pathFor route='register' }}">Register</a></li>
     <li><a href="{{ pathFor route='login' }}">Login</a></li>
+    {{/if}}
     <li><a href="{{ pathFor route='tasks' }}">Tasks</a></li>
   </ul>
+</template>
+
+<template name="taskitem">
+  <div class="container">
+    <label>Task name: </label><h2>{{text}}</h2>
+    <label>Task user: </label><h2>{{username}}</h2>
+  </div>
 </template>
 
 <template name="task">
@@ -59,7 +69,7 @@
       </button>
     {{/if}}
 
-  <span class="text"><strong>{{username}}</strong> - {{text}}</span>
+  <span class="text"><strong>{{username}}</strong> - <a href="/tasks/{{_id}}">{{text}}</a></span>
   </li>
 </template>
 
@@ -68,11 +78,25 @@
 </template>
 
 <template name="register">
-  <h2>Register</h2>
+  <div class="container">
+    <h2>Register</h2>
+    <form class="register">
+        <p>Username: <input type="text" name="username"></p>
+        <p>Password: <input type="password" name="password"></p>
+        <p><input type="submit" value="Register"></p>
+    </form>
+  </div>
 </template>
 
 <template name="login">
-  <h2>Login</h2>
+  <div class="container">
+    <h2>Login</h2>
+    <form class="login">
+        <p>Username: <input type="text" name="username"></p>
+        <p>Password: <input type="password" name="password"></p>
+        <p><input type="submit" value="Login"></p>
+    </form>
+  </div>
 </template>
 
 <template name="addList">
