@@ -1,0 +1,91 @@
+<head>
+  <title>Todo List</title>
+</head>
+ 
+<!--<body>
+  <div class="container">
+    <header>
+      <h1>Todo List ({{incompleteCount}})</h1>
+      <label class="hide-completed">
+        <input type="checkbox" checked="{{hideCompleted}}" />
+        Hide Completed Tasks
+      </label>
+      {{> loginButtons}}
+      {{#if currentUser}}
+      <form class="new-task">
+        <input type="text" name="text" placeholder="Type to add new tasks" />
+      </form>
+      {{/if}}
+    </header>
+ 
+    <ul>
+      {{#each tasks}}
+        {{> task}}
+      {{/each}}
+    </ul>
+  </div>
+</body>-->
+
+<template name="main">
+    <h1>Todos</h1>
+    {{> navigation}}
+    {{> lists}}
+    {{> yield}}
+    <hr />
+    <p>Copyright &copy; Todos, 2014-2015.</p>
+</template>
+
+<template name="navigation">
+	<ul>
+		<li><a href="{{ pathFor route='home' }}">Home</a></li>
+		<li><a href="{{ pathFor route='register' }}">Register</a></li>
+		<li><a href="{{ pathFor route='login' }}">Login</a></li>
+	</ul>
+</template>
+
+<template name="task">
+  <li class="{{#if checked}}checked{{/if}} {{#if private}}private{{/if}}">
+    <button class="delete">&times;</button>
+ 
+    <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
+    {{#if isOwner}}
+      <button class="toggle-private">
+        {{#if private}}
+          Private
+        {{else}}
+          Public
+        {{/if}}
+      </button>
+    {{/if}}
+
+ 	<span class="text"><strong>{{username}}</strong> - {{text}}</span>
+  </li>
+</template>
+
+<template name="home">
+    <p>Welcome to the Todos application.</p>
+</template>
+
+<template name="register">
+	<h2>Register</h2>
+</template>
+
+<template name="login">
+	<h2>Login</h2>
+</template>
+
+<template name="lists">
+    <h2>Lists</h2>
+    {{> addList}}
+    <ul>
+        {{#each list}}
+            <li>{{name}}</li>
+        {{/each}}
+    </ul>
+</template>
+
+<template name="addList">
+    <form class="new-list">Create a list:
+        <input type="text" placeholder="List name here..." name="listName">
+    </form>
+</template>
