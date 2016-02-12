@@ -16,7 +16,7 @@ if (Meteor.isClient) {
   // This code only runs on the client
   Meteor.subscribe("tasks");
 
-  Template.body.events({
+  Template.tasks.events({
     "submit .new-task": function (event) {
       // Prevent default browser form submit
       event.preventDefault();
@@ -68,14 +68,8 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.lists.helpers({
-    'list':function(){
-      return Lists.find({},{sort: {name: 1}});
-    }
-  });
-
   // This code only runs on the client
-  Template.body.helpers({
+  Template.tasks.helpers({
     tasks: function () {
       if (Session.get("hideCompleted")) {
         // If hide completed is checked, filter tasks
@@ -151,6 +145,7 @@ Router.route('/',{
 });
 Router.route('/register');
 Router.route('/login');
+Router.route('/tasks');
 Router.configure({
   layoutTemplate: 'main'
 });

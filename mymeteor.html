@@ -2,7 +2,7 @@
   <title>Todo List</title>
 </head>
  
-<!--<body>
+<template name="tasks">
   <div class="container">
     <header>
       <h1>Todo List ({{incompleteCount}})</h1>
@@ -18,29 +18,30 @@
       {{/if}}
     </header>
  
-    <ul>
-      {{#each tasks}}
-        {{> task}}
-      {{/each}}
+    <ul class="taskslist">
+      {{#transition in="bounceIn" out="bounceOut"}}
+        {{#each tasks}}
+          {{> task}}
+        {{/each}}
+      {{/transition}}
     </ul>
   </div>
-</body>-->
+</template>
 
 <template name="main">
-    <h1>Todos</h1>
     {{> navigation}}
-    {{> lists}}
-    {{> yield}}
-    <hr />
-    <p>Copyright &copy; Todos, 2014-2015.</p>
+    {{#transition wrap="true" in="zoomIn" out="bounceOut"}}
+      {{> yield}}
+    {{/transition}}
 </template>
 
 <template name="navigation">
-	<ul>
-		<li><a href="{{ pathFor route='home' }}">Home</a></li>
-		<li><a href="{{ pathFor route='register' }}">Register</a></li>
-		<li><a href="{{ pathFor route='login' }}">Login</a></li>
-	</ul>
+  <ul>
+    <li><a href="{{ pathFor route='home' }}">Home</a></li>
+    <li><a href="{{ pathFor route='register' }}">Register</a></li>
+    <li><a href="{{ pathFor route='login' }}">Login</a></li>
+    <li><a href="{{ pathFor route='tasks' }}">Tasks</a></li>
+  </ul>
 </template>
 
 <template name="task">
@@ -58,7 +59,7 @@
       </button>
     {{/if}}
 
- 	<span class="text"><strong>{{username}}</strong> - {{text}}</span>
+  <span class="text"><strong>{{username}}</strong> - {{text}}</span>
   </li>
 </template>
 
@@ -67,21 +68,11 @@
 </template>
 
 <template name="register">
-	<h2>Register</h2>
+  <h2>Register</h2>
 </template>
 
 <template name="login">
-	<h2>Login</h2>
-</template>
-
-<template name="lists">
-    <h2>Lists</h2>
-    {{> addList}}
-    <ul>
-        {{#each list}}
-            <li>{{name}}</li>
-        {{/each}}
-    </ul>
+  <h2>Login</h2>
 </template>
 
 <template name="addList">

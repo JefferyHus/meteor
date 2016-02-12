@@ -20,3 +20,5 @@ accounts-ui
 accounts-password
 accounts-facebook
 iron:router
+natestrauser:animate-css
+webtempest:animate
