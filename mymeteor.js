@@ -118,8 +118,8 @@ if (Meteor.isClient) {
     'submit form':function(e){
       e.preventDefault();
 
-      var username = $('[name="username"]');
-      var password = $('[name="password"]');
+      var username = $('[name="username"]').val();
+      var password = $('[name="password"]').val();
       //login the user
       Meteor.loginWithPassword(username, password, function(error){
         if(error)
